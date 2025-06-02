@@ -5,8 +5,14 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
   get "/u/:id", to: "users#profile", as: "user"
-  resources :posts
-    get "about", to: "pages#about"
+
+  # ?posts/1/comments/4
+  resources :posts do
+    resources :comments
+  end
+  mount ActionText::Engine => "/action_text"
+
+  get "about", to: "pages#about"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
