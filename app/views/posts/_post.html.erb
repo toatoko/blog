@@ -3,7 +3,7 @@
 <div id="<%= dom_id post %>">
   
 <h2><%= post.title %></h2>
-<h4>Posted By <%= post.user.email %></h4>
+<h4>Posted By <%= link_to post.user.name, user_path(post.user) %></h4>
 <h6><%= pluralize(post.views, "View") %></h6>  
 <div>
   <%= post.body %>
