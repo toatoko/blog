@@ -9,7 +9,7 @@
 #   end
 
 
-User.create(email: 'test@test.com', password: '123456', password_confirmation: '123456')
+User.create(email: 'test@gmail.com', name: "Toko", password: '123456', password_confirmation: '123456')
 
 
 10.times do |x|
