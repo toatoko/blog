@@ -26,6 +26,9 @@ class CommentsController < ApplicationController
   end
   def destroy
     @comment = @post.comments.find(params[:id])
+    ActionText::RichText.where(record_type: "Comment", record_id: @comment.id).destroy_all
+    Noticed::Event.where(record_type: "Comment", record_id: @comment.id).destroy_all
+    Noticed::Notification.where(recipient_type: "User", recipient_id: current_user.id, event_id: @comment.id).destroy_all
     @comment.destroy
     redirect_to post_path(@post)
   end
