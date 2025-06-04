@@ -1,12 +1,13 @@
 <div class="container">
   <!-- Display the post content -->
   <%= render @post %>
-
+  <% if current_user == @post.user %>
+    <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-secondary btn-sm" %>
+    <%= button_to "Destroy this post", @post, method: :delete,data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm"%>
+  <% end %> 
   <!-- Post actions -->
   <div class="mt-3">
-    <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-secondary btn-sm" %>
     <%= link_to "Back to posts", posts_path, class: "btn btn-outline-secondary btn-sm" %>
-    <%= button_to "Destroy this post", @post, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
   </div>
 </div>
 
