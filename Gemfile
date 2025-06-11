@@ -65,3 +65,6 @@ end
 gem "devise"
 
 gem "noticed", "~> 2.7"
+
+gem "ransack", "~> 4.3"
+gem "faker"
