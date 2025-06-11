@@ -6,7 +6,7 @@
 <h4>Posted By <%= link_to post.user.name, user_path(post.user) %></h4>
 <h6><%= pluralize(post.views, "View") %></h6>  
 <div>
-  <%= post.body %>
+  <%= post.body.to_s %>
 </div>
   
 </div>
