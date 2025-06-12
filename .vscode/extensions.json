@@ -1,6 +1,5 @@
 {
     "recommendations": [
-        "shopify.ruby-extensions-pack",
-        "aliariff.vscode-erb-beautify"
+        "shopify.ruby-extensions-pack"
     ]
 }
