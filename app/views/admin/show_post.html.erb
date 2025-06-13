@@ -1,2 +1,45 @@
-<h1>Admin#show_post</h1>
-<p>Find me in app/views/admin/show_post.html.erb</p>
+<div class="container">
+    <h1 class="text-center">Adminstrator</h1>
+        <%= render "admin/nav_links" %>
+        <div class="container mt-4">
+            <div class="text-center ">
+        <div class="btn-group gap-2">
+            <%= link_to "Back to posts", admin_posts_path, class: "btn btn-secondary btn-sm" %>
+            <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-warning btn-sm" %>
+            <%= button_to "Destroy this post", @post, method: :delete, class: "btn btn-danger btn-sm"%>
+        </div>
+    </div>        
+    </div>
+    <div class="row mt-1">
+        <p>
+            <strong>Title:</strong> <%= @post.title %>
+        </p>
+    </div>
+    <div class="row mt-1">
+        <p>
+            <strong>Views:</strong> <%= @post.views %>
+        </p>
+    </div>
+    <div class="row mt-1">
+        <p>
+            <strong>Author:</strong>
+            <%= "Email: #{@post.user.email} | Name: #{@post.user.name} | #{pluralize(@post.user.views, "View")}" %>
+        </p>
+    </div>
+    <div class="row mt-1">
+        <p>
+            <strong>Body:</strong> <%= @post.body %>
+        </p>
+    </div>
+    <div class="row mt-1">
+        <p>
+            <strong><%= pluralize(@post.comments.count, "Comment") %>:</strong>
+            <% @post.comments.each do |comment| %>
+                <div class="row mt-1">
+                    <%= comment.user.name %>
+                    <%= comment.body %>
+                </div>
+            <% end %>
+        </p>
+    </div>
+</div>
