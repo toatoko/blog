@@ -3,7 +3,7 @@
   <%= render @post %>
   <% if current_user == @post.user %>
     <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-secondary btn-sm" %>
-    <%= button_to "Destroy this post", @post, method: :delete,data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm"%>
+    <%= button_to "Destroy this post", @post, method: :delete, class: "btn btn-danger btn-sm"%>
   <% end %> 
   <!-- Post actions -->
   <div class="mt-3">
