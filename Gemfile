@@ -76,3 +76,5 @@ gem "rubocop-rspec"
 gem "rubocop-shopify"
 gem "rubocop-thread_safety"
 gem "friendly_id", "~> 5.5"
+
+gem "bullet", "~> 8.0"
