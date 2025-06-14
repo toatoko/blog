@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :post
+  belongs_to :post, counter_cache: true
   belongs_to :user
   has_rich_text :body
   after_create_commit :notify_recipient
@@ -10,7 +10,7 @@ class Comment < ApplicationRecord
   private
 
   def notify_recipient
-    CommentNotifier.with(record: self, post:).deliver_later(post.user)
+    CommentNotifier.includes([:record]).with(record: self, post:).deliver_later(post.user)
   end
 
   def cleanup_notifications
