@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_13_184905) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_194642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_184905) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.integer "zip"
+    t.string "country"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "post_id", null: false
     t.integer "user_id", null: false
@@ -76,7 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_184905) do
     t.string "type"
     t.string "record_type"
     t.bigint "record_id"
-    t.json "params"
+    t.jsonb "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "notifications_count"
@@ -116,17 +128,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_184905) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
     t.integer "view"
     t.integer "views", default: 0
     t.integer "role"
+    t.string "first_name"
+    t.string "last_name"
+    t.bigint "address_id"
+    t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "users", "addresses"
 end

@@ -1,6 +1,7 @@
 # To deliver this notification:
 #
-# CommentNotifier.with(record: @post, message: "New post").deliver(User.all)
+# CommentNotifier.with(post: @post, message: "New comment").deliver_later(@user)
+
 
 class CommentNotifier < ApplicationNotifier
   # Add your delivery methods
@@ -22,18 +23,29 @@ class CommentNotifier < ApplicationNotifier
   #
   # required_param :message
   def message
-      # test
-      @post = CommentNotifier.find(id).params[:post]
-      @user = User.find((CommentNotifier.find(id).params[:post].user_id))
-      # @post = record.post
-      # @user = record.user
-      "#{@user.name} replied to #{@post.title.truncate(14)}"
+    @post = params[:post]
+    @commenter = params[:commenter]
+
+    # Debug logging
+    # Rails.logger.info "DEBUG: Post: #{@post.inspect}"
+    # Rails.logger.info "DEBUG: Commenter: #{@commenter.inspect}"
+    # Rails.logger.info "DEBUG: All params: #{params.inspect}"
+
+    # Handle case where params are available (new notifications)
+    if @post && @commenter
+      return "#{@commenter.name} replied to #{@post.title.truncate(14)}"
+    end
+
+    # Handle case where params are not available (old notifications)
+    # You might need to reconstruct the message from the notification record itself
+    "Someone replied to a post"
   end
 
   # That allows us to do our url construction
   def url
-    # test
-    post_path(CommentNotifier.find(id).params[:post].id)
-    # post_path(record.post.id)
+    # Use params directly and add nil check
+    return root_path unless params[:post]
+
+    post_path(params[:post].id)
   end
 end
