@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_notifications
-    notifications = Noticed::Notification.includes([:event]).where(recipient: current_user).newest_first.limit(9)
+    notifications = Noticed::Notification.includes([:event ]).where(recipient: current_user).newest_first.limit(9)
     @unread = notifications.unread
     @read = notifications.read
   end

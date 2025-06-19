@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
   def create
-    @comment = @post.comments.create(comment_params)
+    @comment = @post.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
       flash[:notice] = "Comment has been created"

@@ -10,9 +10,11 @@ class Comment < ApplicationRecord
   private
 
   def notify_recipient
-    CommentNotifier.includes([:record]).with(record: self, post:).deliver_later(post.user)
-  end
+    return if post.nil? || user.nil? || post.user == user
 
+    CommentNotifier.with(post: post, commenter: user, message: "New comment").deliver_later(post.user)
+  end 
+# CommentNotifier.with(post: @post, commenter: @comment.user, message: "New comment").deliver_later(@post.user)
   def cleanup_notifications
       post.notifications.where(id: post.id).destroy_all
   end

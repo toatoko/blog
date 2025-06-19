@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   end
 
   def posts
-    @posts = Post.all.includes(:user)
+    @posts = Post.all.includes(:user).order(created_at: :asc, id: :asc)
   end
 
   def comments
@@ -13,6 +13,6 @@ class AdminController < ApplicationController
   end
 
   def show_post
-    @post = Post.includes(:user, :comments).friendly.find(params[:id])
+    @post = Post.includes(:user, comments: [:user, :rich_text_body]).friendly.find(params[:id])
   end
 end
