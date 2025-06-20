@@ -1,46 +1,245 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">Edit <%= resource_name.to_s.humanize %></h2>
+        </div>
+        <div class="card-body">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "needs-validation", novalidate: true }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+            <!-- Personal Information Section -->
+            <div class="mb-4">
+              <h5 class="text-muted mb-3">
+                <i class="fas fa-user me-2"></i>Personal Information
+              </h5>
+              
+              <div class="mb-3">
+                <%= f.label :email, class: "form-label" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+              </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <%= f.label :first_name, class: "form-label" %>
+                  <%= f.text_field :first_name, class: "form-control", required: true %>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <%= f.label :last_name, class: "form-label" %>
+                  <%= f.text_field :last_name, class: "form-control", required: true %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Address Section -->
+            <%= fields_for :address, resource.address do |c| %>
+              <%= c.hidden_field :id %>
+              <div class="mb-4">
+                <h5 class="text-muted mb-3">
+                  <i class="fas fa-map-marker-alt me-2"></i>Address
+                </h5>
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <%= c.label :street, class: "form-label" %>
+                      <%= c.text_field :street, class: "form-control" %>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <%= c.label :city, class: "form-label" %>
+                        <%= c.text_field :city, class: "form-control" %>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <%= c.label :state, class: "form-label" %>
+                        <%= c.text_field :state, class: "form-control" %>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <%= c.label :zip, class: "form-label" %>
+                        <%= c.text_field :zip, class: "form-control" %>
+                      </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <%= c.label :country, class: "form-label" %>
+                      <%= c.text_field :country, class: "form-control" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- Email Confirmation Notice -->
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div class="alert alert-info mb-4">
+                <i class="fas fa-info-circle me-2"></i>
+                Currently waiting confirmation for: <strong><%= resource.unconfirmed_email %></strong>
+              </div>
+            <% end %>
+
+            <!-- Password Section -->
+            <div class="mb-4">
+              <h5 class="text-muted mb-3">
+                <i class="fas fa-lock me-2"></i>Change Password
+              </h5>
+              
+              <div class="mb-3">
+                <%= f.label :password, class: "form-label" %>
+                <small class="text-muted">(leave blank if you don't want to change it)</small>
+                <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+                <% if @minimum_password_length %>
+                  <div class="form-text">
+                    <em><%= @minimum_password_length %> characters minimum</em>
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="mb-3">
+                <%= f.label :password_confirmation, class: "form-label" %>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+              </div>
+
+              <div class="mb-3">
+                <%= f.label :current_password, class: "form-label" %>
+                <small class="text-muted">(we need your current password to confirm your changes)</small>
+                <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", required: true %>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2">
+              <%= f.submit "Update Profile", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Account Deletion Section -->
+      <div class="card mt-4 border-danger">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-exclamation-triangle me-2"></i>Unhappy? 
+          </h5>
+        </div>
+        <div class="card-body">
+          <h6>Delete Account</h6>
+          <p class="text-muted mb-3">
+            Once you delete your account, there is no going back. Please be certain.
+          </p>
+          <%= button_to "Delete My Account", 
+                        registration_path(resource_name), 
+                        data: { 
+                          confirm: "Are you sure you want to delete your account? This action cannot be undone.", 
+                          turbo_confirm: "Are you sure you want to delete your account? This action cannot be undone?" 
+                        }, 
+                        method: :delete, 
+                        class: "btn btn-outline-danger" %>
+        </div>
+      </div>
+
+      <!-- Back Link -->
+      <div class="text-center mt-4">
+        <%= link_to "← Back", :back, class: "btn btn-link" %>
+      </div>
+    </div>
   </div>
-<div class="field">
-  <%= f.label :name %><br />
-  <%= f.text_field :name %>
 </div>
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+<style>
+  .card {
+    border: none;
+    border-radius: 12px;
+  }
+  
+  .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  .btn-outline-danger {
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+  }
+  
+  .btn-link {
+    color: #6c757d;
+    text-decoration: none;
+  }
+  
+  .btn-link:hover {
+    color: #495057;
+    text-decoration: underline;
+  }
+  
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
+  .text-muted {
+    color: #6c757d !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+  
+  .alert {
+    border-radius: 8px;
+    border: none;
+  }
+  
+  .alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+  }
+  
+  h5 i {
+    color: #6c757d;
+  }
+  
+  div.field_with_errors .form-control {
+    border-color: #dc3545;
+  }
+  
+  div.field_with_errors {
+    display: contents;
+  }
+</style>

@@ -11,11 +11,11 @@
         </thead>
 
         <tbody>
-            <% @posts.each do |post| %>
+            <% @posts.includes([:user, :rich_text_body]).each do |post| %>
                 <tr>
                     <td><%= link_to post.title, post %></td>
                     <td><%= post.body.to_plain_text.truncate_words(25) %></td>
-                    <td><%= link_to post.user.name, post.user %></td>
+                    <td><%= link_to post.user.first_name, post.user %></td>
                 </tr>
             <% end %>    
         </tbody>
