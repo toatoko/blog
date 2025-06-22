@@ -1,0 +1,19 @@
+<div class="container">
+    <h1 class="text-center">Adminstrator</h1>
+        <%= render "admin/nav_links" %>
+    
+    <div class="container card mt-4 text-center">
+    <legend> Categories </legend>
+    <ul class='list-inline'>
+        <% @categories.each do |category| %>
+        <li class="list-inline-item me-3">
+            <%= link_to category.name, category, class: "btn btn-outline-primary btn-sm rounded-pill " %>
+            <span class="badge bg-dark text-light rounded-pill"><%= category.posts_count || 0 %> Posts</span>
+        </li>
+        <% end %>
+        <li class= "text-center">
+            <%= link_to "All Categories", categories_path, class: "btn btn-outline-secondary mt-2 btn-sm" %>
+        </li>
+    </ul>
+</div>    
+</div>

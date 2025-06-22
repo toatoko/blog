@@ -1,5 +1,93 @@
 <div class="container">
     <h1 class="text-center">Adminstrator</h1>
         <%= render "admin/nav_links" %>
-    
+    <div class="row mt-4">
+        <% if @users.includes([:address]).any? %>
+            <div class="row">
+                <% @users.includes([:address]).each do |user| %>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-circle me-3">
+                                        <%= user.first_name&.first&.upcase || "?" %>
+                                    </div>
+                                    <div>
+                                        <h5 class="card-title mb-0">
+                                            <%= "#{user.first_name} #{user.last_name}".strip %>
+                                        </h5>
+                                        <% if user.address %>
+                                            <small class="text-muted">
+                                                <%= user.address.city %>, <%= user.address.state %>
+                                            </small>
+                                        <% end %>
+                                    </div>
+                                </div>
+                                
+                                <% if user.address %>
+                                    <p class="card-text small text-muted mb-2">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <%= user.address.city %>, <%= user.address.state %>, <%= user.address.country %>
+                                    </p>
+                                <% end %>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="followUser(<%= user.id %>)">
+                                        Follow
+                                    </button>
+                                       <%= link_to "View Profile", user_path(user), class: "btn btn-outline-secondary btn-sm" %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% else %>
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-users fa-5x text-muted"></i>
+                </div>
+                <h3 class="text-muted">No users found</h3>
+            </div>
+        <% end %>
+    </div>    
 </div>
+<style>
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border: 1px solid #e9ecef;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    
+    div.field_with_errors {
+        display: inline;
+    }
+</style>
