@@ -1,19 +1,19 @@
 <% content_for :title, "Posts" %>
 <div class="container">
   <h1>Posts</h1>
+  
+    <%= link_to "Back to Home", root_path, class:"btn btn-secondary" %>
+    <%= link_to "New post", new_post_path, class: "btn btn-primary" %>
+  <hr>
 
   <div id="posts">
-    <% @posts.each do |post| %>
+    <% @posts.includes([:category]).each do |post| %>
       <%= render post %>
       <p>
         <%= link_to "Show this post", post %>
       </p>
     <% end %>
   </div>
-  <%= link_to "New post", new_post_path %>
 
    
-</div>
-<div class="container">
-<%= link_to "Back to Home", root_path, class:"btn btn-primary" %>
 </div>

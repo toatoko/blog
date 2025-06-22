@@ -1,0 +1,17 @@
+
+
+<div id="categories">
+  <h2><%= @category.name %></h2>
+  <ol>
+    <% @category.posts.each do |post| %>
+        <li><%= link_to "#{post.title}" , post %></li>
+    <% end %>
+  </ol>
+</div>
+
+<div>
+  <%= link_to "Edit this category", edit_category_path(@category) if current_user&.admin? %> |
+  <%= link_to "Back to categories", categories_path %>
+
+  <%= button_to "Destroy this category", @category, method: :delete if current_user&.admin? %>
+</div>

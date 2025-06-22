@@ -3,6 +3,8 @@ class Post < ApplicationRecord
   validates :title, presence: true, length: { minimum: 5, maximum: 50 }
   validates :body, presence: true
   belongs_to :user
+  belongs_to :category, counter_cache: true
+  before_validation :assign_default_category
   has_many :comments, dependent: :destroy
   has_rich_text :body
   has_many :notifications, through: :user, dependent: :destroy
@@ -21,4 +23,9 @@ class Post < ApplicationRecord
   def should_generate_new_friendly_id?
     title_changed? || slug.blank?
   end
+  private
+  def assign_default_category
+    self.category ||= Category.find_by(name: "Uncategorized")
+  end
+  
 end

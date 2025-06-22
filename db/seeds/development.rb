@@ -33,19 +33,20 @@ Address.first_or_create!(
   zip: "12345",
   country: "KSA",
   user: Toko
-)
-
-Address.first_or_create!(
-  street: "123 Main St",
-  city: "Anytown",
-  state: "CA",
-  zip: "12345",
-  country: "KSA",
-  user: Baka
-)
-
+  )
+  
+  Address.first_or_create!(
+    street: "123 Main St",
+    city: "Anytown",
+    state: "CA",
+    zip: "12345",
+    country: "KSA",
+    user: Baka
+    )
+    
+Category.find_or_create_by!(name: "Uncategorized")
 elapsed = Benchmark.measure do
-  posts = []
+
   10.times do |x|
     puts "Creating post #{x}"
     post = Post.new(
@@ -62,10 +63,7 @@ elapsed = Benchmark.measure do
       )
     end
 
-    posts << post
+    post.save!
   end
-
-  Post.import(posts, recursive: true)
 end
-
 puts "Seeded development DB in #{elapsed.real} seconds"

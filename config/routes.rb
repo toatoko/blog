@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
   get "/u/:id", to: "users#profile", as: "user"
+  resources :categories
   resources :after_signup
   # ?posts/1/comments/4
   resources :posts do
