@@ -10,8 +10,11 @@ class AdminController < ApplicationController
   end
 
   def users
+    @users = User.all
   end
-
+  def categories
+    @categories = Category.all
+  end
   def show_post
     @post = Post.includes(:user, comments: [:user, :rich_text_body]).friendly.find(params[:id])
   end

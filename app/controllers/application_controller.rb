@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  
   def set_categories
     @categories = Category.all.order(:name)
   end

@@ -15,7 +15,7 @@ class Post < ApplicationRecord
   end
   
   def self.ransackable_associations(auth_object = nil)
-    [ "user", "rich_text_body" ]
+    [ "user", "rich_text_body", "category" ]
   end
   
   friendly_id :title, use: %i[slugged history finders]

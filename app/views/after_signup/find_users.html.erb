@@ -36,9 +36,7 @@
                                 <button class="btn btn-outline-primary btn-sm" onclick="followUser(<%= user.id %>)">
                                     Follow
                                 </button>
-                                <button class="btn btn-outline-secondary btn-sm" onclick="viewProfile(<%= user.id %>)">
-                                    View Profile
-                                </button>
+                                <%= link_to "View Profile", user_path(user), class: "btn btn-outline-secondary btn-sm" %>
                             </div>
                         </div>
                     </div>

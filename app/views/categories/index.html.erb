@@ -1,21 +1,28 @@
+<div class="container">
 
-<% content_for :title, "Categories" %>
+  <% content_for :title, "Categories" %>
 
-<h1>Categories</h1>
+  <h1>Categories</h1>
+  <%= link_to "New category", new_category_path, class: "btn btn-primary" if current_user&.admin? %>
 
-<div id="categories">
-  <% @categories.includes([:posts]).each do |category| %>
-    <h2><%= category.name %></h2>
-    <h5> Posts </h5>
-    <ol>
-      <% category.posts.each do |post| %>
-          <li><%= link_to "#{post.title}" , post %></li>
-      <% end %>
-    </ol>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
+  <div class=""flex-category-boxes pt-5">
+    <% @categories.order(:id).each do |category| %>
+      <h2><%= category.name %></h2>
+        <% if category.posts.empty? %>
+          <h6>No Post in This Category</h6>
+        <% else %>
+          <h6>Posts In This Category</h6>
+        <% end %>
+
+      <ol>
+        <% category.posts.order(:id).each do |post| %>
+            <li><%= link_to "#{post.title}" , post, class: "btn btn-outline-primary"%></li>
+        <% end %>
+      </ol>
+      <p>
+        <%= link_to "Show this category", category, class: "btn btn-secondary" %>
+      </p>
+    <% end %>
+  </div>
+
 </div>
-
-<%= link_to "New category", new_category_path if current_user&.admin? %>
