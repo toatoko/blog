@@ -26,6 +26,9 @@ class User < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     [ "email", "first_name", "last_name", "id" ]
   end
+  def self.ransackable_associations(auth_object = nil)
+    ["address", "comments", "notification_mentions", "notifications", "posts"]
+  end
   def full_name
     "#{first_name.capitalize unless first_name.nil?} #{last_name.capitalize unless last_name.nil?}"
   end

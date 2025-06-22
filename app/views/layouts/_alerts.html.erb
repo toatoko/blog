@@ -1,5 +1,12 @@
-<% if notice %>
-    <p class="notice"><%= notice %></p>
-<% elsif alert  %>    
-    <p class="alert"><%= alert %></p>
-<%  end %>    
+<% flash.each do |type, message| %>
+  <% bs_class = case type.to_sym
+     when :notice then "alert-success"
+     when :alert  then "alert-danger"
+     else "alert-info"
+  end %>
+
+  <div class="alert <%= bs_class %> alert-dismissible fade show m-3" role="alert">
+    <%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

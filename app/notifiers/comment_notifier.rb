@@ -33,7 +33,7 @@ class CommentNotifier < ApplicationNotifier
 
     # Handle case where params are available (new notifications)
     if @post && @commenter
-      return "#{@commenter.name} replied to #{@post.title.truncate(14)}"
+      return "#{@commenter.full_name} replied to #{@post.title.truncate(14)}"
     end
 
     # Handle case where params are not available (old notifications)
