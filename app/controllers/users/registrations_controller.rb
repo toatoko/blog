@@ -21,14 +21,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    @address = current_user.address || current_user.build_address
-    if @address.update(address_params)
-      redirect_to root_path, notice: "Address updated successfully"
+    # Check if this is specifically an address-only update
+    # (when user submits only address form, not the main user form)
+    if params[:address].present? && params[:user].blank?
+      # Address-only update
+      @user = current_user
+      @address = current_user.address || current_user.build_address
+      if @address.update(address_params)
+        redirect_to root_path, notice: "Address updated successfully"
+      else
+        render :edit, status: :unprocessable_entity
+      end
     else
-      render :edit, status: :unprocessable_entity
+      # Regular user profile update - let Devise handle it
+      super
     end
   end
-
 
   # DELETE /resource
   # def destroy
@@ -53,7 +61,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email,
+                                                              :avatar,
+                                                              :password,
+                                                              :password_confirmation,
+                                                              :current_password,
+                                                              :first_name,
+                                                              :last_name,
+                                                              {address: %i[street city state zip country]} ])
   end
 
   # The path used after sign up.

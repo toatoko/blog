@@ -15,7 +15,7 @@
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
   <%= form.label :category_id,"Category" %>
-  <%= form.select :category_id, options_from_collection_for_select(Category.all, :id , :name, @post.category_id), include_blank: "Uncategorized", class: "form-select" %>
+  <%= form.select :category_id, options_from_collection_for_select(Category.all, :id , :name, @post.category_id), include_blank: "Select Category", class: "form-select" %>
   </div>
   
   <div>
