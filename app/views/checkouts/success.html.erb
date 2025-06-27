@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h1 class="mb-0">🎉 Payment Successful!</h1>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Thank you for your purchase!</p>
+                    
+                    <div class="alert alert-success">
+                        <strong>Your Total: $<%= number_with_precision(@session.amount_total.to_f / 100, precision: 2) %></strong>
+                    </div>
+
+                    <h3>Order Details:</h3>
+                    <% @line_item.data.each do |item| %>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5 class="card-title"><%= item.description %></h5>
+                                        <p class="card-text">
+                                            <strong>Price:</strong> $<%= number_with_precision(item.price.unit_amount.to_f / 100, precision: 2) %><br>
+                                            <strong>Quantity:</strong> <%= item.quantity %>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <% begin %>
+                                            <% product = Stripe::Product.retrieve(item.price.product) %>
+                                            <% if product.images.present? && product.images.first.present? %>
+                                                <%= image_tag(product.images.first, 
+                                                    class: "img-fluid rounded", 
+                                                    alt: item.description,
+                                                    style: "max-height: 200px; object-fit: cover;") %>
+                                            <% else %>
+                                                <div class="bg-light p-4 text-center rounded">
+                                                    <i class="fas fa-image fa-2x text-muted"></i>
+                                                    <p class="text-muted mt-2">No image available</p>
+                                                </div>
+                                            <% end %>
+                                        <% rescue Stripe::StripeError => e %>
+                                            <div class="bg-light p-4 text-center rounded">
+                                                <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
+                                                <p class="text-muted mt-2">Unable to load product details</p>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+
+                    <div class="mt-4">
+                        <p class="text-muted">
+                            <strong>Session ID:</strong> <%= @session.id %><br>
+                            <strong>Payment Date:</strong> <%= Time.at(@session.created).strftime("%B %d, %Y at %I:%M %p") %>
+                        </p>
+                    </div>
+
+                    <div class="mt-4">
+                        <%= link_to "Continue Shopping", root_path, class: "btn btn-primary" %>
+                        <%= link_to "View Profile", user_path(current_user), class: "btn btn-outline-secondary" if respond_to?(:user_path) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
