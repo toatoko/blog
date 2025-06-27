@@ -17,8 +17,8 @@ class CheckoutsController < ApplicationController
 
       @session = Stripe::Checkout::Session.retrieve(params[:stripe_checkout_session_id])
       @line_item = Stripe::Checkout::Session.list_line_items(params[:stripe_checkout_session_id])
-       current_user.payment_processor.sync_subscriptions if current_user.payment_processor
+      current_user.payment_processor.sync_subscriptions if current_user.payment_processor
   
-        redirect_to members_dashboard_path
+      redirect_to members_dashboard_path
   end
 end
