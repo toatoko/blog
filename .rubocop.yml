@@ -8,6 +8,9 @@ Layout/SpaceInsideArrayLiteralBrackets:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
+Layout/SpaceInsideBlockBraces:
+  Enabled: false
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: false
 
@@ -35,16 +38,32 @@ Layout/SpaceAroundEqualsInParameterDefault:
 Layout/SpaceAroundKeyword:
   Enabled: false
 
+# Disable trailing whitespace complaints
+Layout/TrailingWhitespace:
+  Enabled: false
+
+# Disable trailing empty lines complaints
+Layout/TrailingEmptyLines:
+  Enabled: false
+
+# Disable comment indentation complaints
+Layout/CommentIndentation:
+  Enabled: false
+
+# Disable empty lines around block body
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
 # Line length - make it more reasonable
 Layout/LineLength:
   Max: 120
-  IgnoredPatterns: ['(\A|\s)#']
+  AllowedPatterns: ['(\A|\s)#']
 
 # Method length - be more lenient
 Metrics/MethodLength:
   Max: 20
 
-# Class length - be more lenient  
+# Class length - be more lenient
 Metrics/ClassLength:
   Max: 150
 
@@ -52,9 +71,9 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   Max: 50
   Exclude:
-    - 'spec/**/*'
-    - 'config/routes.rb'
-    - 'db/migrate/*.rb'
+    - "spec/**/*"
+    - "config/routes.rb"
+    - "db/migrate/*.rb"
 
 # Allow empty lines in method bodies
 Layout/EmptyLinesAroundMethodBody:
@@ -62,10 +81,10 @@ Layout/EmptyLinesAroundMethodBody:
 
 # Allow trailing commas (they're actually good for git diffs)
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  Enabled: false
 
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  Enabled: false
 
 # Don't force single quotes everywhere
 Style/StringLiterals:
@@ -127,7 +146,7 @@ Style/MethodCallWithoutArgsParentheses:
 Style/SymbolArray:
   Enabled: false
 
-# Allow flexible word arrays  
+# Allow flexible word arrays
 Style/WordArray:
   Enabled: false
 
