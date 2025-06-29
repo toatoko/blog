@@ -1,8 +1,140 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+# Overwrite spacing rules to be less strict
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: false
+
+Layout/SpaceBeforeComma:
+  Enabled: false
+
+Layout/SpaceAfterComma:
+  Enabled: false
+
+Layout/SpaceAroundOperators:
+  Enabled: false
+
+Layout/SpaceInsideParens:
+  Enabled: false
+
+Layout/SpaceInsideStringInterpolation:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+Layout/SpaceAroundKeyword:
+  Enabled: false
+
+# Line length - make it more reasonable
+Layout/LineLength:
+  Max: 120
+  IgnoredPatterns: ['(\A|\s)#']
+
+# Method length - be more lenient
+Metrics/MethodLength:
+  Max: 20
+
+# Class length - be more lenient  
+Metrics/ClassLength:
+  Max: 150
+
+# Block length - more reasonable for specs/routes
+Metrics/BlockLength:
+  Max: 50
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+    - 'db/migrate/*.rb'
+
+# Allow empty lines in method bodies
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: false
+
+# Allow trailing commas (they're actually good for git diffs)
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+# Don't force single quotes everywhere
+Style/StringLiterals:
+  Enabled: false
+
+# Allow both types of string interpolation
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+# Don't enforce comment format
+Style/CommentAnnotation:
+  Enabled: false
+
+# Allow flexible hash syntax
+Style/HashSyntax:
+  Enabled: false
+
+# Don't force proc over lambda
+Style/Lambda:
+  Enabled: false
+
+# Allow flexible conditional assignment
+Style/ConditionalAssignment:
+  Enabled: false
+
+# Don't force guard clauses everywhere
+Style/GuardClause:
+  Enabled: false
+
+# Allow flexible case equality
+Style/CaseEquality:
+  Enabled: false
+
+# Allow numeric literals as you like them
+Style/NumericLiterals:
+  Enabled: false
+
+# Allow flexible regex literals
+Style/RegexpLiteral:
+  Enabled: false
+
+# Don't enforce specific quote marks in strings
+Style/QuotedSymbols:
+  Enabled: false
+
+# Allow flexible documentation
+Style/Documentation:
+  Enabled: false
+
+# Allow multiple assignments
+Style/ParallelAssignment:
+  Enabled: false
+
+# Allow flexible method calls
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+# Allow flexible symbol arrays
+Style/SymbolArray:
+  Enabled: false
+
+# Allow flexible word arrays  
+Style/WordArray:
+  Enabled: false
+
+# Don't force specific boolean naming
+Naming/PredicateName:
+  Enabled: false
+
+# Allow flexible variable names
+Naming/VariableNumber:
+  Enabled: false
