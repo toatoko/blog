@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
     <%= link_to "Rails Blog", root_path, class:"navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
            <%= link_to "Home", root_path, class:"nav-link" %>
@@ -18,9 +18,11 @@
         <li class="nav-item">
            <%= link_to "Members", members_dashboard_path, class:"nav-link" %>
         </li>
-      <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li class="nav-item dropdown" style="position: relative; z-index: 1000;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="navbarDropdown">
             <% @categories.each do |category| %>
               <li>
                 <%= link_to category.name, category_path(category), class: "dropdown-item" %>
@@ -29,7 +31,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><%= link_to "All Categories", categories_path, class: "dropdown-item" %></li> 
           </ul>
-        </li> 
+        </li>
       </ul>
       <ul class="navbar-nav">
         <%= render 'search/form' %>

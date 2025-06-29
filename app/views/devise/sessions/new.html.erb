@@ -1,26 +1,179 @@
-<h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        /* SCOPED STYLES - Only affects elements inside .login-page */
+        .login-page {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+        .login-container .field {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-container .field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .login-container .field input[type="email"],
+        .login-container .field input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
+
+        .login-container .field input[type="email"]:focus,
+        .login-container .field input[type="password"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .login-container .checkbox-field {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-container .checkbox-field input[type="checkbox"] {
+            margin-right: 0.5rem;
+            transform: scale(1.1);
+        }
+
+        .login-container .checkbox-field label {
+            margin-bottom: 0;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .login-container .actions {
+            margin-top: 2rem;
+        }
+
+        .login-container .actions input[type="submit"] {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-container .actions input[type="submit"]:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-container .actions input[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .login-container .shared-links {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .login-container .shared-links a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin: 0 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .login-container .shared-links a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .login-container h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <h2>Log in</h2>
+            
+            <form action="/users/sign_in" method="post">
+                <div class="field">
+                    <label for="user_email">Email</label>
+                    <input type="email" name="user[email]" id="user_email" autofocus="autofocus" autocomplete="email" required>
+                </div>
+
+                <div class="field">
+                    <label for="user_password">Password</label>
+                    <input type="password" name="user[password]" id="user_password" autocomplete="current-password" required>
+                </div>
+
+                <div class="checkbox-field">
+                    <input type="checkbox" name="user[remember_me]" id="user_remember_me" value="1">
+                    <label for="user_remember_me">Remember me</label>
+                </div>
+
+                <div class="actions">
+                    <input type="submit" name="commit" value="Log in">
+                </div>
+            </form>
+
+            <div class="shared-links">
+                <a href="/users/sign_up">Sign up</a>
+                <a href="/users/password/new">Forgot your password?</a>
+            </div>
+        </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</body>
+</html>
