@@ -1,0 +1,5 @@
+class AddBodyToProjects < ActiveRecord::Migration[8.0]
+  def change
+    add_column :projects, :body, :string
+  end
+end

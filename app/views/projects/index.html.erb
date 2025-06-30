@@ -1,0 +1,15 @@
+<div class="container">
+
+  <% content_for :title, "Projects" %>
+
+  <h1>Projects</h1>
+  <h3>Here is my most of latest projects</h3>
+  <hr>
+  <div id="projects">
+    <% @projects.each do |project| %>
+      <%= render project %>
+    <% end %>
+  </div>
+</div>
+
+
