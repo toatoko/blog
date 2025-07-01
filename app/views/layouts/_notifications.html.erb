@@ -12,9 +12,9 @@
       <% end %>
 
       <% if @read.count > 0 && @unread.count > 0 %>
-        <li><hr class="dropdown-divider bg-dark"><h6>Read</h6><hr class="dropdown-divider text-light"></li>
+        <li><hr class="dropdown-divider text-white"><h6>Read</h6><hr class="dropdown-divider text-light"></li>
       <% elsif @read.count + @unread.count == 0 %>
-        <li class="dropdown-item">No notifications yet.</li>
+        <li class="dropdown-item text-white">No notifications yet.</li>
       <% end %>
 
       <% @read.each do |notification| %>

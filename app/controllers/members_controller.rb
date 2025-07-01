@@ -8,7 +8,7 @@ class MembersController < ApplicationController
   private
 
   def check_subscription_status
-    unless current_user.active_subscription
+    unless current_user.active_subscription or current_user.admin?
       redirect_to checkout_path(
         line_items: ["price_1ReBAZFMAnjHu1AwfOMIWtUu"],
         payment_mode: "subscription"
