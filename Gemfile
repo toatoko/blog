@@ -83,7 +83,7 @@ gem "activerecord-import", "~> 2.2"
 
 gem "wicked", "~> 2.0"
 
-gem "stripe", "~> 15.2"
+gem "stripe", "~> 15.3"
 gem "pay", "~> 11.1"
 
 gem "ahoy_matey", "~> 5.4"
