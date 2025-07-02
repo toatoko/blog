@@ -1,7 +1,7 @@
 
 <div id="<%= dom_id project %>">
 
-      <h2><%=link_to  project.title, project, class: 'text-reset-link' %></h2>
+      <h2><%=link_to  project.title, project %></h2>
       <%= link_to project.link, project.link , class: "btn btn-search"%>
     <br>
     <%= project.body  %>

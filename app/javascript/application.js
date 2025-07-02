@@ -7,3 +7,5 @@ import "@rails/actiontext";
 
 import "chartkick";
 import "Chart.bundle";
+import "theme_toggle";
+

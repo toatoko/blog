@@ -1,5 +1,8 @@
-<li class="dropdown-item">
-  <li>
-    <%= link_to notification.event.message, notification.event.url %>
-  </li>
+<li>
+  <%= link_to notification.event.url, class: "dropdown-item" do %>
+    <div><%= notification.event.message %></div>
+    <% if notification.created_at %>
+      <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+    <% end %>
+  <% end %>
 </li>
