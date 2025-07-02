@@ -35,10 +35,10 @@
             <li><%= link_to "All Categories", categories_path, class: "dropdown-item" %></li> 
           </ul>
         </li>
-        <button type="button" class="btn btn-sm rounded-circle btn-theme-toggle " title="<%= theme_title %>">
-       
-          <i class="theme-icon bi <%= theme_icon_class.split.last %>"></i>
-        </button>
+        <%= link_to "#", class: "btn btn-sm btn-theme-toggle", title: "Toggle Theme" do %>
+          <i class="bi theme-icon"></i>
+        <% end %>
+
       </ul>
       <ul class="navbar-nav">
         <%= render 'search/form' %>

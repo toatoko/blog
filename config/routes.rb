@@ -26,8 +26,6 @@ Rails.application.routes.draw do
     resources :comments
   end
   mount ActionText::Engine => "/action_text"
-  get 'theme', to: 'theme#set', as: 'set_theme'
-
 
   get "about", to: "pages#about"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,22 +1,31 @@
-document.addEventListener('turbo:load', () => {
-  const btn = document.querySelector('.btn-theme-toggle');
+// Toggle theme on button click
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-theme-toggle');
   if (!btn) return;
 
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const current = document.documentElement.getAttribute('data-theme') || 'light'; // default light
-    const next = current === 'light' ? 'dark' : 'light';
+  const current = localStorage.getItem('theme') || 'light';
+  const next = current === 'light' ? 'dark' : 'light';
 
-    document.documentElement.setAttribute('data-theme', next);
-    document.cookie = `theme=${next}; path=/; max-age=${60 * 60 * 24 * 365}`;
-    fetch('/set-theme', { headers: { 'Accept': 'application/json' } });
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
 
-    // ✅ Move this inside the click handler:
-    const icon = document.querySelector('.theme-icon');
-    if (icon) {
-      icon.classList.remove('bi-sun', 'bi-moon-stars');
-      icon.classList.add(next === 'dark' ? 'bi-sun' : 'bi-moon-stars');
-    }
-  });
+  const icon = btn.querySelector('.theme-icon') || document.querySelector('.theme-icon');
+  if (icon) {
+    icon.classList.remove('bi-sun', 'bi-moon-stars');
+    icon.classList.add(next === 'dark' ? 'bi-sun' : 'bi-moon-stars');
+  }
+});
+
+// Set theme and icon on every page load (Turbo-compatible)
+document.addEventListener('turbo:load', () => {
+  const saved = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+
+  const icon = document.querySelector('.theme-icon');
+  if (icon) {
+    icon.classList.remove('bi-sun', 'bi-moon-stars');
+    icon.classList.add(saved === 'dark' ? 'bi-sun' : 'bi-moon-stars');
+  }
 });
