@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_action :require_admin, except: %i[index show]
   # GET /projects or /projects.json
   def index
-    @projects = Project.includes([:rich_text_body]).all
+    @projects = Project.all.includes([:rich_text_body]).order(position: :asc)
   end
 
   # GET /projects/1 or /projects/1.json

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :projects
+  patch 'drag/project'
   get "members/dashboard"
   authenticated :user, ->(user) {user.admin?} do
     get "admin", to: "admin#index"

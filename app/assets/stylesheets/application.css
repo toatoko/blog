@@ -937,3 +937,15 @@ html[data-theme="dark"] .bi-sun {
 [data-theme="dark"] .login-container .shared-links a:hover {
     color: #3b82f6;
 }
+
+[data-theme="dark"] textarea,
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+    background-color: #d2d2d2;
+    color: #343434;
+    border: 1px solid #444;
+}
+
+[data-theme="dark"] .trix-button {
+    filter: invert(1);
+}
