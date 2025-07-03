@@ -93,3 +93,5 @@ gem "groupdate", "~> 6.7"
 gem "chartkick", "~> 5.2"
 
 gem "acts_as_list", "~> 1.2"
+
+gem "whenever", "~> 1.0"

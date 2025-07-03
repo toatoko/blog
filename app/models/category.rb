@@ -4,4 +4,7 @@ class Category < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "id", "id_value", "name", "posts_count", "updated_at"]
   end
+  def self.scheduled_category
+    Category.create(name: "Scheduled at #{Time.now}")
+  end
 end
