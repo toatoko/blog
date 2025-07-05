@@ -12,3 +12,6 @@ pin 'chartkick', to: 'chartkick.js'
 pin 'Chart.bundle', to: 'Chart.bundle.js'
 
 pin "theme_toggle", to: "theme_toggle.js"
+pin "picmo" # @5.8.5
+pin "@picmo/popup-picker", to: "@picmo--popup-picker.js" # @5.8.5
+pin_all_from "app/javascript/controllers", under: "controllers"

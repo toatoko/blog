@@ -1,6 +1,16 @@
 <%= form_with(model: [post, comment]) do |f| %>
-    <div class="form-control">
-        <%= f.rich_text_area :body %>
-        <%= f.submit submit_label, class: "btn btn-primary mt-1" %>
+    <div data-controller="emoji-picker">
+        <div data-emoji-picker-target="pickerContainer"></div>
+        <div>
+        <%= f.rich_text_area :body, data: {
+        emoji_picker_target: "trixEditor" } %>
+        </div>
+    </div>
+
+    <div >
+        <%= f.submit submit_label, class: "btn btn-primary mt-1 text-white" %>
     </div>
 <% end  %>    
+
+
+  

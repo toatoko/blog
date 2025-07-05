@@ -949,3 +949,7 @@ html[data-theme="dark"] .bi-sun {
 [data-theme="dark"] .trix-button {
     filter: invert(1);
 }
+
+[data-theme="dark"] .trix-button#emoji-picker {
+    filter: none;
+}
