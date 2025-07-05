@@ -49,11 +49,18 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  # These are fir the debugger
+  gem "ruby-debug-ide", "~> 0.7.5"
+  gem "debase", "~> 0.2.9"
+  # End debugger gems
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "binding_of_caller"
+  gem "better_errors"
+  
 end
 
 group :test do
@@ -95,3 +102,5 @@ gem "chartkick", "~> 5.2"
 gem "acts_as_list", "~> 1.2"
 
 gem "whenever", "~> 1.0"
+
+
