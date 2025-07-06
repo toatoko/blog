@@ -7,6 +7,11 @@ class Post < ApplicationRecord
   before_validation :assign_default_category
   has_many :comments, dependent: :destroy
   has_rich_text :body
+  # Single image upload
+  # has_one_attached :image
+  # multiple images upload
+  has_many_attached :images
+  
   has_many :notifications, through: :user, dependent: :destroy
   has_many :notification_mentions, through: :user, dependent: :destroy
   has_noticed_notifications model_name: "Noticed::Notification"

@@ -4,6 +4,13 @@
   <h4>Posted By <%= link_to post.user.full_name, user_path(post.user) %></h4>
   <h6><%= pluralize(post.views, "View") %></h6>  
   <h6>Category: <%= link_to "#{post.category&.name}", category_path(post.category) %></h6>
+  <% if post.images.attached? %>
+    <% post.images.each do |image| %>
+      <%= image_tag(image, style: "width:300px; height: auto;") %>
+    <% end %>
+  <% else %>
+    <div class="image-placeholder">No image available</div>
+  <% end %>
   <div>
     <%= post.body.to_s %>
   </div>

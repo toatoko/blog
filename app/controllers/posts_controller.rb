@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[show index]
   # GET /posts or /posts.json
   def index
-    @posts = Post.all.includes([:user, :rich_text_body]).order(created_at: :asc, id: :asc)
+    @posts = Post.all.includes([:user, :rich_text_body, :images_attachments]).order(created_at: :asc, id: :asc)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -42,7 +42,20 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     respond_to do |format|
-      if @post.update(post_params)
+      # Handle images separately to preserve existing ones
+      if params[:post][:images].present?
+        # Remove any blank entries and attach new images
+        new_images = params[:post][:images].reject(&:blank?)
+        @post.images.attach(new_images) if new_images.any?
+      end
+      
+      # Update other attributes (excluding images since we handled them above)
+      other_params = post_params.except(:images)
+      
+      # Only update if there are other parameters to update
+      success = other_params.empty? || @post.update(other_params)
+      
+      if success
         format.html { redirect_to @post, notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -73,7 +86,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body, :category_id)
+      params.require(:post).permit(:title, :body, :category_id, images: [])
     end
 
   def mark_notifications_as_read

@@ -1,0 +1,15 @@
+<div class="dropzone dropzone-default dc-clickable" 
+data-controller="dropzone" 
+data-dropzone-max-file-size="265" 
+data-dropzone-accepted-files="image/*"
+data-dropzone-max-files="2"
+data-dropzone-upload-multiple="true"
+data-dropzone-existing-files="<%= @post.images.attached? ? @post.images.map { |image| { name: image.filename.to_s, size: image.byte_size, url: url_for(image) } }.to_json : '[]' %>">
+
+    <%= form.file_field :images, multiple: true, direct_upload: true, data: { dropzone_target: 'input'} %>
+    <div class="dropzone-msg dz-message needsclick" >
+        <h3 class="dropzone-msg-title">Drag or Click and Upload up to 2 files</h3>
+        <span class="dropzone-msg-desc">Max size is 265MB</span>
+    </div>
+
+</div>

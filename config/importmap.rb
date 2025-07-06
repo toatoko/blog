@@ -15,3 +15,8 @@ pin "theme_toggle", to: "theme_toggle.js"
 pin "picmo" # @5.8.5
 pin "@picmo/popup-picker", to: "@picmo--popup-picker.js" # @5.8.5
 pin_all_from "app/javascript/controllers", under: "controllers"
+
+
+pin "dropzone" # @6.0.0
+pin "just-extend" # @5.1.1
+pin "@rails/activestorage", to: "@rails--activestorage.js" # @8.0.200

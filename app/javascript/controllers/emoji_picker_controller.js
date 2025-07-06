@@ -31,11 +31,11 @@ export default class extends Controller {
   // Remove static targets - we'll use querySelector instead
 
   connect() {
-    console.log("Connected to emojipicker");
+
 
     // Prevent multiple instances from initializing
     if (this.element.dataset.emojiPickerInitialized) {
-      console.log("Emoji picker already initialized, skipping");
+
       return;
     }
 
@@ -48,10 +48,10 @@ export default class extends Controller {
       const trixEditor = this.element.querySelector('[data-emoji-picker-target="trixEditor"]');
 
       if (pickerContainer && trixEditor && trixEditor.editor) {
-        console.log("All elements found and Trix editor ready, initializing...");
+
         this.initializeEmojiPicker();
       } else {
-        console.log("Waiting for Trix editor to be ready...");
+
         setTimeout(checkAndInitialize, 200);
       }
     };
@@ -67,7 +67,7 @@ export default class extends Controller {
       // Check if button already exists
       const existingButton = document.querySelector('#emoji-picker');
       if (existingButton) {
-        console.log("Emoji button already exists, removing duplicate");
+
         existingButton.remove();
       }
 
@@ -92,9 +92,9 @@ export default class extends Controller {
       });
 
       richText.setPicker(picker);
-      console.log("Emoji picker initialized successfully!");
+
     } catch (error) {
-      console.error("Error initializing emoji picker:", error);
+
     }
   }
 
