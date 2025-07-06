@@ -9,7 +9,7 @@ Rails.application.configure do
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
   end
-
+  config.hosts << /[a-z0-9\-]+\.ngrok\-free\.app/
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.
