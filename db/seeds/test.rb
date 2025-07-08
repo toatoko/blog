@@ -1,1 +1,0 @@
-puts 'Seeding test database...'

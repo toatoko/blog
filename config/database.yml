@@ -84,15 +84,3 @@ production:
     database: blog_production
     username: blog
     password: <%= Rails.application.credentials.dig(:prod_db_username) %>
-  cache:
-    <<: *primary_production
-    database: blog_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: blog_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: blog_production_cable
-    migrations_paths: db/cable_migrate
