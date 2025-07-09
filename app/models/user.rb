@@ -1,18 +1,29 @@
 class User < ApplicationRecord
   include SubscriptionConcern
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  
   has_many :posts, dependent: :destroy
   has_one_attached :avatar, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
-  has_many :notification_mentions, as: :record, dependent: :destroy, class_name: "Noticed::Event"
+  
+  # Fix the counter cache setup
+  has_many :notifications, as: :recipient, dependent: :destroy, 
+           class_name: "Noticed::Notification"
+  has_many :notification_mentions, as: :record, dependent: :destroy, 
+           class_name: "Noticed::Event"
+  
+  # Add these for better notification querying
+  has_many :unread_notifications, -> { where(read_at: nil) }, 
+           as: :recipient, class_name: "Noticed::Notification"
+  has_many :read_notifications, -> { where.not(read_at: nil) }, 
+           as: :recipient, class_name: "Noticed::Notification"
+           
   pay_customer stripe_attributes: :stripe_attributes
   has_one :address, dependent: :destroy, inverse_of: :user, autosave: true
   enum :role, [ :user, :admin ]
   after_initialize :set_default_role, if: :new_record?
+
   cattr_accessor :form_steps do
     %w[sign_up set_name set_address find_users]
   end
@@ -54,6 +65,9 @@ class User < ApplicationRecord
       }
     }
 
+  end
+  def unread_notifications_count
+    unread_notifications.count
   end
 
   private

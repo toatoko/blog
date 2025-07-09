@@ -3,13 +3,41 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[show index]
   # GET /posts or /posts.json
   def index
-    @posts = Post.all.includes([:user, :rich_text_body, :images_attachments]).order(created_at: :asc, id: :asc)
+    @posts = Post.all.includes([:user, :rich_text_body, :images_attachments, :category])
+                .order(created_at: :asc, id: :asc)
+    
+    if current_user
+      # More efficient notification loading
+      @notifications = current_user.notifications
+                                  .joins(:event)
+                                  .includes(:event)
+                                  .where(read_at: nil)
+                                  .order(created_at: :desc)
+                                  .limit(10)
+      
+      # Get post IDs from events efficiently
+      notification_post_ids = Noticed::Event.joins(:notifications)
+                                            .where(
+                                              noticed_notifications: { 
+                                                recipient: current_user, 
+                                                read_at: nil 
+                                              },
+                                              record_type: 'Post'
+                                            )
+                                            .pluck(:record_id)
+                                            .uniq
+      
+      @notification_posts = Post.includes(:user, :slugs)
+                                .where(id: notification_post_ids)
+                                .index_by(&:id)
+    end
   end
 
   # GET /posts/1 or /posts/1.json
   def show
-    @post.update(views: @post.views + 1)
-    @comments = @post.comments.includes([:user, :rich_text_body]).order(created_at: :desc)
+    @post.increment!(:views) 
+    @comments = @post.comments.includes([:user, :rich_text_body])
+                              .order(created_at: :desc)
     ahoy.track 'Viewed Post', post_id: @post.id
     mark_notifications_as_read
   end
@@ -78,11 +106,10 @@ class PostsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.friendly.find(params[:id])
-
-      redirect_to @post, status: :moved_permanently if params[:id] != @post.slug
-    end
+  def set_post
+    @post = Post.friendly.find(params[:id])
+    redirect_to @post, status: :moved_permanently if params[:id] != @post.slug
+  end
 
     # Only allow a list of trusted parameters through.
     def post_params
@@ -92,7 +119,26 @@ class PostsController < ApplicationController
   def mark_notifications_as_read
     return unless current_user
 
-    notifications_to_mark_as_read = @post.notifications.where(recipient: current_user)
-    notifications_to_mark_as_read.update_all(read_at: Time.zone.now)
+    # Mark post notifications as read
+    post_notifications = current_user.notifications
+                                    .joins(:event)
+                                    .where(noticed_events: { 
+                                      record_type: 'Post', 
+                                      record_id: @post.id 
+                                    })
+                                    .where(read_at: nil)
+    
+    # Mark comment notifications as read for this post
+    comment_notifications = current_user.notifications
+                                      .joins(:event)
+                                      .where(noticed_events: { 
+                                        record_type: 'Comment', 
+                                        record_id: @post.comments.pluck(:id) 
+                                      })
+                                      .where(read_at: nil)
+    
+    # Update all at once
+    all_notifications = post_notifications.or(comment_notifications)
+    all_notifications.update_all(read_at: Time.zone.now)
   end
 end

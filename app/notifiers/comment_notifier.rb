@@ -4,6 +4,8 @@
 
 
 class CommentNotifier < ApplicationNotifier
+  required_param :post
+  required_param :commenter
   # Add your delivery methods
   #
   # deliver_by :email do |config|
@@ -32,8 +34,15 @@ class CommentNotifier < ApplicationNotifier
     # Rails.logger.info "DEBUG: All params: #{params.inspect}"
 
     # Handle case where params are available (new notifications)
-    if @post && @commenter
-      return "#{@commenter.full_name} replied to #{@post.title.truncate(14)}"
+    begin
+      if @post && @commenter
+        post_title = @post.title.present? ? @post.title.truncate(14) : "a post"
+        commenter_name = @commenter.full_name.present? ? @commenter.full_name : "Someone"
+        return "#{commenter_name} replied to #{post_title}"
+      end
+    rescue => e
+      Rails.logger.error "CommentNotifier message error: #{e.message}"
+      Rails.logger.error "Params: #{params.inspect}"
     end
 
     # Handle case where params are not available (old notifications)
@@ -43,9 +52,18 @@ class CommentNotifier < ApplicationNotifier
 
   # That allows us to do our url construction
   def url
-    # Use params directly and add nil check
     return root_path unless params[:post]
 
-    post_path(params[:post].id)
+    begin
+      # Use friendly URLs if available, otherwise fall back to ID
+      if params[:post].respond_to?(:slug) && params[:post].slug.present?
+        post_path(params[:post].slug)
+      else
+        post_path(params[:post].id)
+      end
+    rescue => e
+      Rails.logger.error "CommentNotifier URL generation error: #{e.message}"
+      root_path
+    end
   end
 end

@@ -1,31 +1,40 @@
 <% if current_user %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <span class="badge rounded-pill <%= @unread.count > 0 ? 'bg-danger' : 'bg-secondary' %>">
-        <%= @unread.count >= 9 ? "9+" : @unread.count %>
+      <% unread_count = @unread&.size || 0 %>
+      <span class="badge rounded-pill <%= unread_count > 0 ? 'bg-danger' : 'bg-secondary' %>">
+        <%= unread_count >= 9 ? "9+" : unread_count %>
         <i class="bi bi-bell-fill"></i>
       </span>
     </a>
 
     <ul class="dropdown-menu dropdown-menu-lg-end shadow" aria-labelledby="navbarDropdown">
-      <% if @unread.any? %>
+      <% if @unread&.any? %>
         <% @unread.each do |notification| %>
           <%= render 'layouts/notification', notification: notification %>
         <% end %>
       <% end %>
 
-      <% if @read.any? && @unread.any? %>
+      <% if @read&.any? && @unread&.any? %>
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header text-muted">Read</li>
         <li><hr class="dropdown-divider"></li>
       <% end %>
 
-      <% if (@read.count + @unread.count) == 0 %>
+      <% total_count = (@read&.size || 0) + (@unread&.size || 0) %>
+      <% if total_count == 0 %>
         <li class="dropdown-item text-muted">No notifications yet.</li>
       <% else %>
-        <% @read.each do |notification| %>
+        <% @read&.each do |notification| %>
           <%= render 'layouts/notification', notification: notification %>
         <% end %>
+      <% end %>
+      
+      <% if total_count > 0 %>
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-item text-center">
+          <%= link_to "View all notifications", notifications_path, class: "text-muted small" %>
+        </li>
       <% end %>
     </ul>
   </li>

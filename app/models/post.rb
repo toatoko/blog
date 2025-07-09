@@ -12,9 +12,11 @@ class Post < ApplicationRecord
   # multiple images upload
   has_many_attached :images
   
-  has_many :notifications, through: :user, dependent: :destroy
-  has_many :notification_mentions, through: :user, dependent: :destroy
-  has_noticed_notifications model_name: "Noticed::Notification"
+  has_many :noticed_events, as: :record, dependent: :destroy, class_name: "Noticed::Event"
+  has_many :notifications, through: :noticed_events, dependent: :destroy, class_name: "Noticed::Notification"
+  
+  has_noticed_notifications model_name: "Noticed::Event"
+
   def self.ransackable_attributes(auth_object = nil)
     [ "rich_text_body", "title", "user_id", "created_at", "updated_at", "id", "views" ]
   end
@@ -30,13 +32,16 @@ class Post < ApplicationRecord
   end
 
   def views_by_day
-    daily_events = Ahoy::Event.where("cast(properties ->> 'post_id' as bigint) = ?", id)
-    daily_events.group_by_day(:time, range: 1.month.ago..Time.now).count
+    Ahoy::Event.where(name: 'Viewed Post')
+              .where("properties ->> 'post_id' = ?", id.to_s)
+              .group_by_day(:time, range: 1.month.ago..Time.now)
+              .count
   end
 
   def self.total_views_by_day
-    daily_events = Ahoy::Event.where(name: 'Viewed Post')
-    daily_events.group_by_day(:time, range: 1.month.ago..Time.now).count
+    Ahoy::Event.where(name: 'Viewed Post')
+              .group_by_day(:time, range: 1.month.ago..Time.now)
+              .count
   end
 
 

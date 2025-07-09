@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :projects
+  resources :notifications, only: [:index, :show, :update, :destroy] 
   patch 'drag/project'
   get "members/dashboard"
   authenticated :user, ->(user) {user.admin?} do

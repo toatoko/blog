@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_09_100401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,7 +70,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.string "name"
     t.jsonb "properties"
     t.datetime "time"
+    t.index ["name", "time"], name: "idx_ahoy_events_name_time"
     t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
+    t.index ["properties"], name: "idx_ahoy_events_properties", using: :gin
     t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
     t.index ["user_id"], name: "index_ahoy_events_on_user_id"
     t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
@@ -119,7 +121,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id", "created_at"], name: "idx_comments_post_created"
     t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "idx_comments_user"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -142,7 +146,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "notifications_count"
+    t.index ["created_at"], name: "idx_events_created_at"
+    t.index ["record_type", "record_id"], name: "idx_events_record"
     t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
+    t.index ["type"], name: "idx_events_type"
   end
 
   create_table "noticed_notifications", force: :cascade do |t|
@@ -154,7 +161,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.datetime "seen_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id", "read_at"], name: "idx_notifications_event_read"
     t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
+    t.index ["recipient_type", "recipient_id", "created_at"], name: "idx_notifications_recipient_created"
+    t.index ["recipient_type", "recipient_id", "read_at"], name: "idx_notifications_recipient_read"
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
   end
 
@@ -266,7 +276,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.string "slug"
     t.integer "comments_count"
     t.integer "category_id"
+    t.index ["category_id"], name: "idx_posts_category"
+    t.index ["created_at", "id"], name: "idx_posts_created_id"
+    t.index ["slug"], name: "idx_posts_slug_unique", unique: true
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+    t.index ["user_id"], name: "idx_posts_user"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -440,8 +454,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_112155) do
     t.string "subscription_status"
     t.datetime "subscription_end_date"
     t.datetime "subscription_start_date"
+    t.integer "notifications_count", default: 0, null: false
     t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["notifications_count"], name: "index_users_on_notifications_count"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
