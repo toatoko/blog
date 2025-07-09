@@ -82,5 +82,4 @@ production:
   primary: &primary_production
     <<: *default
     database: blog_production
-    username: blog
-    password: <%= Rails.application.credentials.dig(:prod_db_username) %>
+    username: toko
