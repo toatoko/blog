@@ -11,6 +11,8 @@ Rails.application.configure do
   end
   config.hosts << /[a-z0-9\-]+\.ngrok\-free\.app/
   # Settings specified here will take precedence over those in config/application.rb.
+  config.log_level = :debug
+  config.active_record.verbose_query_logs = true
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true

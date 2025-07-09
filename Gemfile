@@ -53,6 +53,8 @@ group :development, :test do
   gem "ruby-debug-ide", "~> 0.7.5"
   gem "debase", "~> 0.2.9"
   # End debugger gems
+  gem 'rack-mini-profiler'
+
 end
 
 group :development do
