@@ -79,7 +79,11 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: blog_production
-    username: toko
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: db-production.cnemy8sqwtiz.eu-north-1.rds.amazonaws.com
+  database: blog # Your new DB name
+  username: postgres # Or your RDS username
+  password: kJ7Ov7DSBuDtN8oTCtdg
+  port: 5432

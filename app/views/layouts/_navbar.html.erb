@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
     <%= link_to "Rails Blog", root_path, class:"navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="font-size: 1.5rem;"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -36,7 +37,7 @@
           </ul>
         </li>
         <%= link_to "#", class: "btn btn-sm btn-theme-toggle", title: "Toggle Theme" do %>
-          <i class="bi theme-icon"></i>
+          <i class="bi theme-icon text"></i>
         <% end %>
 
       </ul>

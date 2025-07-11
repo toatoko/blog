@@ -2,16 +2,23 @@
 <div class="container card">
     <h1>My Personal Home Page</h1>
     <p>You can read more about me, or checkout my blog</p>
-    <div class="card-action mb-3">
-        <%= link_to "About me", about_path, class:"btn btn-primary" %> 
-        <%= link_to "Blog", posts_path, class:"btn btn-primary" %> 
-        <%= link_to "Buy my stuff", checkout_path(
-            line_items: ["price_1Re8HhFMAnjHu1AwBMNXI7xV"],
-            payment_mode: "payment"), class:"btn btn-success " %> 
-        <%= link_to "Subscribe", checkout_path(
-            line_items: ["price_1ReBAZFMAnjHu1AwfOMIWtUu"],
-            payment_mode: "subscription"), class: "btn btn-success" %>
-        <%= link_to "Manage Billing", @portal_session.url, class: "btn btn-danger  " unless @portal_session.nil? %>
+    <div class="card-action mb-3 list-inline">
+
+            <%= link_to "About me", about_path, class:"btn btn-primary mb-2" %> 
+     
+            <%= link_to "Blog", posts_path, class:"btn btn-primary mb-2" %> 
+ 
+            <%= link_to "Buy my stuff", checkout_path(
+                line_items: ["price_1Re8HhFMAnjHu1AwBMNXI7xV"],
+                payment_mode: "payment"), class:"btn btn-success mb-2" %> 
+  
+            <%= link_to "Subscribe", checkout_path(
+                line_items: ["price_1ReBAZFMAnjHu1AwfOMIWtUu"],
+                payment_mode: "subscription"), class: "btn btn-success mb-2" %>
+
+
+            <%= link_to "Manage Billing", @portal_session.url, class: "btn btn-danger  mb-2" unless @portal_session.nil? %>
+
     </div>
 </div>
 <% if current_user %>
@@ -32,12 +39,12 @@
     <ul class='list-inline'>
         <% @categories.each do |category| %>
         <li class="list-inline-item me-3">
-            <%= link_to category.name, category, class: "btn btn-search " %>
+            <%= link_to category.name, category, class: "btn btn-primary " %>
             <span class="badge bg-dark text-light rounded-pill"><%= category.posts_count || 0 %> Posts</span>
         </li>
         <% end %>
-        <li class= "text-center">
-            <%= link_to "All Categories", categories_path, class: "btn btn-search" %>
+        <li class= "text-center"><br>
+            <%= link_to "All Categories", categories_path, class: "btn btn-secondary" %>
         </li>
     </ul>
 </div>    
